@@ -132,7 +132,7 @@ ATTR_LIST = ['num_calls','nonrec_calls','tottime','cumtime']
 
 
 
-class Log_Data():
+class LogData():
     def __init__ (self, **kwargs): 
         self._parent_folder = None      #Parent folder name -- contains all the folders with log files 
         self._image_size = 62           #Image size -- max number of jobs to be plotted
@@ -187,8 +187,8 @@ class UsageParser():
         self.group_data = {}
         self.group_names = {}
 
-        self.log_path = lgdr        #All log files from a folder
-        self.data = []              #Contains the data of all the jobs separated by parent folder (list:Log_Data())
+        self.log_path = lgdr        
+        self.data = []              #Contains the data of all the jobs separated by parent folder (list:LogData())
         self.selected_jobs = jobs   #job types that will be used to plot/get stats 
 
         self.memory_limit = mem     
@@ -196,7 +196,7 @@ class UsageParser():
 
 
     def load_usage_files(self): 
-        """ Loads all the usage files for the selected jobs into self.data using Log_Data class. """
+        """ Loads all the usage files for the selected jobs into self.data using LogData class. """
         folders = glob.glob(self.log_path)
 
         for fld in folders: 
@@ -214,7 +214,7 @@ class UsageParser():
                         else : 
                             dic[j] = [u]
             if dic :
-                ld = Log_Data(**dic)
+                ld = LogData(**dic)
                 ld.set_parent_folder(fld)
 
                 self.data.append(ld)
@@ -364,7 +364,7 @@ class UsageParser():
 
 
     def key_and_value(self, data):
-        """ Gets the keys and data from the given Log_Data """
+        """ Gets the keys and data from the given LogData """
 
         data_list = []
         key_list = []
@@ -418,7 +418,7 @@ class UsageParser():
                 gs: matplotlib.gridspec.GridSpec()
                     Set the position of the plot inside the figure (fig)
 
-                data:   Log_Data
+                data:   LogData
                         Data that has to be plotted 
 
                 chunk:  list 
@@ -471,7 +471,7 @@ class UsageParser():
                 gs: matplotlib.gridspec.GridSpec()
                     Set the position of the plot inside the figure (fig)
 
-                data:   Log_Data
+                data:   LogData
                         Data that has to be plotted 
 
                 chunk:  list 
@@ -546,7 +546,7 @@ class UsageParser():
                 gs: matplotlib.gridspec.GridSpec()
                     Set the position of the plot inside the figure (fig)
 
-                data:   Log_Data
+                data:   LogData
                         Data that has to be plotted 
 
                 chunk:  list 
@@ -845,7 +845,7 @@ class UsageParser():
                 if var_name == 'max_uss_GB' :
                     xmin = 0
                     xmax = time_max
-                    ymin = ymax = 4
+                    ymin = ymax = self.memory_limit
                     line = mlines.Line2D([xmin,xmax], [ymin,ymax], color='green')
                     ax.add_line(line)
 
