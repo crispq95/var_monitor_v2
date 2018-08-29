@@ -95,10 +95,10 @@ def main():
 	parser.load_data(jobs, set_size_job)
 
 	if args.plot: 
-		parser.plot_all_jobs()
+		parser.plot_all_jobs('/'.join(pth[0:-1]))
 	if args.stats : 
 		print ("stats")
-		parser.get_job_stats('/'.join(pth[0:-1]))
+		parser.get_job_stats()
 
 
 main()
