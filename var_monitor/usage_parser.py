@@ -692,7 +692,6 @@ class UsageParser():
         
         for d in self.data: 
             path = folder+'/plots/'
-            print ("PLOT PATH : ", path+d.parent_folder.split('/')[-1]+'.pdf')
 
             with PdfPages((path+d.parent_folder.split('/')[-2]+'.pdf')) as pdf:
                 print ("FOLDER : ", d.parent_folder, " ______ ")
