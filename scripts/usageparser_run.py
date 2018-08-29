@@ -25,8 +25,8 @@ def parse_main_args():
 	parser.add_argument("--memlim", "-m", required=False, help="Job RAM limit (GB)", type=int)
 	parser.add_argument("--writlim", "-w", required=False, help="Job write limit (GB)", type=int)
 
-	parser.add_argument("--stats", "-s", required=True, type=str2bool, nargs='?', default=True, help="Show jobs stats. (yes,true.y.t.1)")
-	parser.add_argument("--plot", "-pl", required=True, type=str2bool, nargs='?', default=True, help="Plot jobs stats. (no,false,f,n,0)")
+	parser.add_argument("--stats", "-s", required=False, type=str2bool, nargs='?', default=True, help="Show jobs stats. (yes,true.y.t.1)")
+	parser.add_argument("--plot", "-pl", required=False, type=str2bool, nargs='?', default=True, help="Plot jobs stats. (no,false,f,n,0)")
 
 	args = parser.parse_args()
 	return args
@@ -90,15 +90,19 @@ def main():
 
 	print("workdir --", whole_workdir," || jobs --", jobs)
 
-	parser = up.UsageParser(whole_workdir,jobs,mem=memory_limit, wr=iow_limit)
+	if not args.plot and not args.stats:
+		raise Exception('One of --plot or --stats required')
+	else: 
+		parser = up.UsageParser(whole_workdir,jobs,mem=memory_limit, wr=iow_limit)
 
-	parser.load_data(jobs, set_size_job)
+		parser.load_data(jobs, set_size_job)
 
-	if args.plot: 
-		parser.plot_all_jobs('/'.join(pth[0:-1]))
-	if args.stats : 
-		print ("stats")
-		parser.get_job_stats()
+
+		if args.plot: 
+			parser.plot_all_jobs('/'.join(pth[0:-1]))
+		if args.stats : 
+			print ("stats")
+			parser.get_job_stats()
 
 
 main()
