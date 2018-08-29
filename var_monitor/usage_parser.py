@@ -681,7 +681,7 @@ class UsageParser():
         print ('')
 
 
-    def plot_all_jobs(self, max_size=62):
+    def plot_all_jobs(self, folder, max_size=62):
         """ Plots all the jobs on the folders on self
 
             Jobs will be classified per folder and plotted on different pdfs, every page of the pdf will contain 2 memory plots (rss/vms)
@@ -689,7 +689,7 @@ class UsageParser():
 
 
         """
-        path = os.path.dirname(os.path.realpath(__file__))+'/plots/'
+        path = folder+'/plots/'
         print ("PLOT PATH : ", path)
         
         for d in self.data: 

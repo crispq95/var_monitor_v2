@@ -43,11 +43,11 @@ def main():
 	set_size_job = []
 
 	args = parse_main_args()
+	pth = os.path.dirname(os.path.realpath(__file__)).split('/')
 
 	if args.config: 
 		config_path = args.config
 	else:
-		pth = os.path.dirname(os.path.realpath(__file__)).split('/')
 		config_path =  '/'.join(pth[0:-1])+'/conf/parser_conf.cfg'
 
 	conf_file = config_path
@@ -98,7 +98,7 @@ def main():
 		parser.plot_all_jobs()
 	if args.stats : 
 		print ("stats")
-		parser.get_job_stats()
+		parser.get_job_stats('/'.join(pth[0:-1]))
 
 
 main()
