@@ -1,0 +1,186 @@
+#!/nfs/pic.es/user/c/cperalta/python_envs/python_3.5.1/bin/python
+# Handle renaming of ConfigParser from python 2 to 3
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
+
+import argparse
+import shlex
+import psutil
+import os
+import sys
+import uuid
+
+from var_monitor import ProcessTreeMonitor
+
+CONFIG_PATH = '/nfs/pic.es/user/c/cperalta/python_envs/python_3.5.1/codigoGit/conf/run_and_monitorize.cfg'
+CHECK_LAPSE = 0  # time between each usage check in seconds
+REPORT_LAPSE = 1  # time between each usage print in seconds
+HS06_REF = 12.2  # reference to compute the HS06
+VAR_LIST = ['max_vms', 'max_rss', 'total_io_read', 'total_io_write',
+            'total_cpu_time', 'total_HS06', 'total_mem_swap', 'max_uss']
+
+
+def parse_cmd_args(args_list):
+    """ Parses arguments passed at command line when the script was called.
+        It works for the arguments passed inside the -c option of the script
+
+        Return is in the same format as the one for parse_main_args()
+
+    """
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--logdir', required=False, default='.')
+    parser.add_argument('--workdir', required=False, default='.')
+    args = parser.parse_known_args(args_list)
+    return args
+
+
+def parse_main_args():
+    """ Parses arguments passed at command line when the script was called.
+
+        Returns
+        -------
+        args : argparse.Namespace
+            Stores the data passed on command line as args.'data'
+
+            example :
+                args.command = COMMAND_TO_BE_EXECUTED_AND_MONITORIZED
+                args.pid = PID_NUM_TO_MONITOR
+                etc.
+
+    """
+    parser = argparse.ArgumentParser(description="CLI utility for running and monitoring processes.")
+
+    parser.add_argument("--command", "-c", required=False, help="Command to be run and monitorized")
+    parser.add_argument("--pid", "-p", required=False, help="Id of the process to monitorize", type=int)
+    parser.add_argument("--conf", required=False, help="Configuration file")
+    parser.add_argument("--logdir", "-ld", required=False, help="Log directory")
+
+    args = parser.parse_args()
+    return args
+
+
+ARGS_FUNC_DICT = {
+    'var_list': lambda x: x.split(','),
+    'check_lapse': lambda x: float(x),
+    'report_lapse': lambda x: float(x)}
+
+
+def modify_args(elem):
+    """
+        Transforms a tuple into a key and value ready to be stored into a dictionary
+
+        Parameters
+        ----------
+        elem : tuple
+            ('elem1', 'val1,val2,..,valN')
+
+        Returns
+        -------
+        k : elem1
+
+        v : [val1,val2,..,valN]
+        list of tuple values
+    """
+    k, v = elem
+
+    new_v = ARGS_FUNC_DICT[k](v)
+    return k, new_v
+
+
+def main():
+    args = parse_main_args()
+
+    # Load configuration file
+    # Config file passed by command line got priority over the default one (CONFIG_PATH).
+    if args.conf:
+        conf_file = args.conf
+    else:
+        conf_file = CONFIG_PATH
+    config = ConfigParser.ConfigParser()
+
+    config.read(conf_file)
+
+    # Find log dir
+    # priotity = (command,config_file,default)
+    if args.logdir:  # passed at command line
+        logdir = args.logdir
+        config['logging']['logdir_implicit'] = '1'
+
+    elif config.has_option('logging', 'logdir'):  # present on configuration file
+        logdir = config.get('logging', 'logdir')
+        print("Logfile on config : ", logdir)
+    else:  # default
+        logdir = '.'
+        print ("Default logdir : ", logdir)
+
+    # Choose log file (name)
+    if config.has_option('logging', 'logfile'):
+        logfile = config.get('logging', 'logfile')
+    else:
+        logfile = 'usage_{}.csv'.format(uuid.uuid1().hex)
+
+    # Get the process to be monitorized
+    if args.pid and args.command:
+        raise Exception('Both --pid and --command provided. Only one of those parameters accepted')
+
+    elif not args.pid and not args.command:
+        raise Exception('One of --pid or --command required')
+
+    elif args.pid:
+        proc = psutil.Process(args.pid)
+
+    elif args.command:
+        # Get the command to be run and monitorized
+        command_list = shlex.split(args.command)
+
+        # Initialize the process
+        proc = psutil.Popen(command_list)
+
+        # Handle the additional case when the logdir is defined inside the command
+        print (config.getboolean('logging', 'logdir_implicit'))
+        if config.has_option('logging', 'logdir_implicit') and config.getboolean('logging', 'logdir_implicit'):
+            cmd_args, unknown = parse_cmd_args(command_list)
+
+            print("cmd_args : ", cmd_args)
+            logdir = os.path.join(cmd_args.workdir, cmd_args.logdir)
+
+    # Compute whole file name
+    whole_logfile = os.path.join(logdir, logfile)
+
+    # Initialize and start the Monitor
+    monit_kwargs = dict(map(modify_args, config.items('root')))
+
+    if 'total_HS06' in monit_kwargs['var_list']:
+        monit_kwargs['HS06_factor_func'] = config.get('HS06', 'HS06_factor_func')
+    else:
+        monit_kwargs['log_file'] = whole_logfile
+
+    monitor = ProcessTreeMonitor(proc, **monit_kwargs)
+
+    print(" ")
+    print("Start monitor !")
+    print(" ")
+
+    monitor.start()
+
+    # guardar en fichero path+nombre fichero log creado
+    print("LOGFILE path+name = ", whole_logfile)
+
+    f = open("logNames.txt", "a+")
+    f.write(whole_logfile + '\n')
+    f.close()
+
+    print(" FINISHED -- congrats <3 ")
+    print(" ")
+
+    # When the process has been created by the monitor propagate the exit status
+    if hasattr(proc, 'returncode'):
+        sys.exit(proc.returncode)
+
+
+if __name__ == '__main__':
+    main()
+

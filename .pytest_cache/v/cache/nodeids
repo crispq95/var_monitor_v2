@@ -1,0 +1,8 @@
+[
+  "test/var_monitor_test.py::test_comp_mem",
+  "test/var_monitor_test.py::test_rss",
+  "test/var_monitor_test.py::test_vms",
+  "test/var_monitor_test.py::test_uss",
+  "test/var_monitor_test.py::test_IOr",
+  "test/var_monitor_test.py::test_IOw"
+]
