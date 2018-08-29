@@ -88,7 +88,7 @@ def main():
 		if config.has_option('jobs_info', 'size_job'):
 			set_size_job = config.get('jobs_info', 'size_job')
 
-	parser = up.Usage_Parser2(whole_workdir,jobs,mem=memory_limit, wr=iow_limit)
+	parser = up.Usage_Parser(whole_workdir,jobs,mem=memory_limit, wr=iow_limit)
 
 	parser.load_data(jobs, set_size_job)
 
