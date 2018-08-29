@@ -30,6 +30,11 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 logger = logging.getLogger(__file__)
 
+
+MEM_LIST=['max_rss_GB', 'max_vms_GB']
+IO_LIST=[('total_io_read_GB'), ('total_io_write_GB')]
+
+
 conversion_dict = {'K': -2, 'M': -1, 'G': 0}
 def conversion(x):
     """ Converts a given number (x) into a more readable format """
