@@ -720,13 +720,14 @@ class UsageParser():
 
         """
         time_files = []
+        
 
         log_files = []
 
 
         for wildcard in wildcard_list:
-            #log_files += glob.glob(wildcard)
-            log_files.append(wildcard)
+            log_files += glob.glob(wildcard)
+            #log_files.append(wildcard)
 
         if t_fil: 
             for f in t_fil:
