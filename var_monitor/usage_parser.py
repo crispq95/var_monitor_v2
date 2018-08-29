@@ -201,6 +201,8 @@ class UsageParser():
         for fld in folders: 
             usg = glob.glob(fld+"/*/usage_*")
             dic = {}
+
+
             for j in self.selected_jobs:
                 p = re.compile('(.*)'+j)
                 
@@ -686,7 +688,8 @@ class UsageParser():
 
 
         """
-        path = '/home/cperalta/Desktop/cosasAcabadas/parser/plots/'
+        path = os.path.dirname(os.path.realpath(__file__))+'/plots/'
+        print ("PLOT PATH : "path)
         
         for d in self.data: 
             with PdfPages((path+d.parent_folder.split('/')[-2]+'.pdf')) as pdf:

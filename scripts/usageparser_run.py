@@ -36,6 +36,7 @@ def main():
 	#jobs = ['SimNipDetector_pkg', 'SimTU_pkg', 'SimPlanner_pkg']
 	memory_limit = None
 	iow_limit = None
+	jobs = []
 
 	folder = ''
 	workdir_path = ''
@@ -46,7 +47,8 @@ def main():
 	if args.config: 
 		config_path = args.config
 	else:
-		config_path =  os.path.dirname(os.path.realpath(__file__))+'/parser/conf/parser_config.cfg'
+		pth = os.path.dirname(os.path.realpath(__file__)).split('/')
+		config_path =  '/'.join(pth[0:-1])+'/conf/parser_conf.cfg'
 
 	conf_file = config_path
 	config = ConfigParser.ConfigParser()
@@ -61,7 +63,6 @@ def main():
 		workdir_path = str(config.get('paths', 'workdir_path'))
 
 	whole_workdir = folder+workdir_path
-
 
 	if args.memlim:
 		memory_limit = int(args.memlim)		 		
@@ -81,12 +82,13 @@ def main():
 		if config.has_option('jobs_info', 'job_names') :
 			jobs = config.get('jobs_info', 'job_names').split(',') 
 
-
 	if args.size_job: 
 		set_size_job = args.size_job
 	else : 
 		if config.has_option('jobs_info', 'size_job'):
 			set_size_job = config.get('jobs_info', 'size_job')
+
+	print("workdir --", whole_workdir," || jobs --", jobs)
 
 	parser = up.UsageParser(whole_workdir,jobs,mem=memory_limit, wr=iow_limit)
 
