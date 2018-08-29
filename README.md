@@ -123,3 +123,11 @@ Plot the 0%, 25%, 50%, 75% and 100% percentiles of the resources usage at each %
 parser.plot_value_range()
 ```
 ![percentiles](img/percentiles.png)
+
+You can also use scripts/usageparser_run.py to get jobs data classified by type of job and ordered by folder or to get max/mean stats for the jobs on a folder. 
+
+´´´
+> python usageparser_run.py -s -p -wdr /pnfs/pic.es/data/astro/euclid/disk/storage/SC456/workdir_SC456_EXT_KIDS_T1_*/log -j SimExtDetector_pkg,SimTU_pkg,SimPlanner_pkg -sz SimExtDetector_pkg -m 4 -w 10 
+
+´´´
+For further information about usageparser_run.py use the argument **-h**.
