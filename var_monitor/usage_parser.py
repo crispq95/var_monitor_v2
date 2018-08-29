@@ -24,6 +24,7 @@ import marshal
 import tempfile
 import io
 import pstats
+import os 
 
 import matplotlib.gridspec as gridspec
 from matplotlib.backends.backend_pdf import PdfPages
