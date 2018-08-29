@@ -708,7 +708,7 @@ class UsageParser():
                     pdf.savefig()
 
 
-    def load_log_files(self, wildcard_list, t_fil, max_len=None):
+    def load_log_files(self, wildcard_list, t_fil=None, max_len=None):
         """ Loads log files that will be used for plotting.
 
             Parameters
@@ -728,17 +728,20 @@ class UsageParser():
             #log_files += glob.glob(wildcard)
             log_files.append(wildcard)
 
-        for f in t_fil:
-            time_files.append(self.load_time_files(f))
+        if t_fil: 
+            for f in t_fil:
+                time_files.append(self.load_time_files(f))
 
         # When maximum length is fixed, get the first max_len files
         if not max_len is None:
             log_files = log_files[:max_len]
-            time_files = time_files[:max_len]
+            if t_fil :
+                time_files = time_files[:max_len]
 
         self.log_files = log_files
 
-        self.time_files = time_files
+        if t_fil:
+            self.time_files = time_files
         self.load_dfs()
 
     def load_time_files(self,data_file):
