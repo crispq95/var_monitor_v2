@@ -92,16 +92,24 @@ var_list=max_vms,max_rss,total_io_read,total_io_write,total_cpu_time ; list of v
 check_lapse=0 ; time between each usage check in seconds
 report_lapse=1 ; time between each usage report in seconds
 
+[HS06]
+HS06_factor_func=/home/cperalta/Desktop/p_final/VarMonitor/hs06dir/cpu2mult
+
 [logging]
 logfile=usage.log 
-logdir=. 
-logdir_implicit=1 ; boolean, set to True if logdir parameter is inside command to be monitorized
+logdir=/home/cperalta/Desktop/p_final/VarMonitor/logdir
+logdir_implicit=0 ; boolean, set to True if logdir parameter is inside command to be monitorized
 ```
+
 
 ## root settings
 
 * var_list: list of variables to be monitorized as comma-separated string. To choose among listed above.
 * check and reporting period: the process figures are checked every `check_lapse` and logged every `report_lapse`. 
+
+## HS06 setting:
+
+* HS06_factor_funct: path to reach HS06 factor file
 
 ## Logging settings:
 

@@ -48,7 +48,7 @@ def main():
 	if args.config: 
 		config_path = args.config
 	else:
-		config_path =  '/'.join(pth[0:-1])+'/conf/parser_conf.cfg'
+		config_path =  os.path.abspath(os.path.join( os.path.dirname(os.path.realpath(__file__)), os.pardir))+'/conf/parser_conf.cfg'
 
 	conf_file = config_path
 	config = ConfigParser.ConfigParser()
@@ -92,7 +92,6 @@ def main():
 	if not args.plot and not args.stats:
 		raise Exception('One of --plot or --stats required')
 	else: 
-		print("workdir --", whole_workdir," || jobs --", jobs)
 		parser = up.UsageParser(whole_workdir,jobs,mem=memory_limit, wr=iow_limit)
 
 		parser.load_data(jobs, set_size_job)
@@ -101,7 +100,6 @@ def main():
 		if args.plot: 
 			parser.plot_all_jobs('/'.join(pth[0:-1]))
 		if args.stats : 
-			print ("stats")
 			parser.get_job_stats()
 
 
