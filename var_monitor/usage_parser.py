@@ -214,7 +214,7 @@ class UsageParser():
             usg = glob.glob(fld+"/*/usage_*")
             dic = {}
 
-            print(usg)
+            #print(usg)
 
             for j in self.selected_jobs:
                 p = re.compile('(.*)'+j)
@@ -302,7 +302,7 @@ class UsageParser():
         """
         self.load_usage_files()     #Loads ALL the usage files from the parent folder 
 
-        print (self.data)
+        #print (self.data)
 
         i=0
         for d in self.data:
