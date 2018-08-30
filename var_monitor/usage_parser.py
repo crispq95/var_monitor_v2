@@ -250,10 +250,14 @@ class UsageParser():
         """
         keys = []
         to_be_ordered = {}
+        print (log_files)
 
         for usg in log_files:
             df = pd.read_csv(usg, engine='python')
             compute_df_columns(df)
+
+            print(usg)
+            
 
             if not df.empty: 
                 nums = re.findall(r'\d+', usg.split('/')[-2])
