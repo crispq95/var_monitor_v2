@@ -176,7 +176,7 @@ class Stat:
 class UsageParser():
 
     def __init__(self):
-        print ("___________________________TEST_____________________________--")
+        #print ("___________________________TEST_____________________________--")
         self.log_files = None
         self.dfs = None
         self.additional_stats = None
@@ -204,13 +204,13 @@ class UsageParser():
     def load_usage_files(self): 
         """ Loads all the usage files for the selected jobs into self.data using LogData class. """
         
-        print ("LOG PATH : ", self.log_path)
+        #print ("LOG PATH : ", self.log_path)
         folders = glob.glob(self.log_path)
-        print ("FOLDERS : ", folders)
+        #print ("FOLDERS : ", folders)
 
 
         for fld in folders: 
-            print (fld+"/*/usage_*")
+            #print (fld+"/*/usage_*")
             usg = glob.glob(fld+"/*/usage_*")
             dic = {}
 
