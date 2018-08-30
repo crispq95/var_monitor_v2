@@ -204,7 +204,7 @@ class UsageParser():
     def load_usage_files(self): 
         """ Loads all the usage files for the selected jobs into self.data using LogData class. """
         
-        print (self.log_path)
+        print ("LOG PATH : ", self.log_path)
         folders = glob.glob(self.log_path)
         print ("FOLDERS : ", folders)
 
