@@ -56,6 +56,7 @@ def load_test_data(path,var_list):
 	whole_logfile = os.path.join(logdir, logfile)
 	monit_kwargs['log_file'] = whole_logfile
 
+
 	print (path)
 	cmd= shlex.split("python3 "+path)
 	#cmd= shlex.split("./mem")

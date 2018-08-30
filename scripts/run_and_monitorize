@@ -15,8 +15,9 @@ import uuid
 from var_monitor import ProcessTreeMonitor
 
 
-print ("OS PATH : ", os.path.dirname(os.path.realpath(__file__)))
-CONFIG_PATH = '/home/cperalta/Desktop/cosasAcabadas/p_final/VarMonitor/conf/run_and_monitorize.cfg'
+
+
+CONFIG_PATH = os.path.abspath(os.path.join( os.path.dirname(os.path.realpath(__file__)), os.pardir))+'/conf/run_and_monitorize.cfg'
 CHECK_LAPSE = 0  # time between each usage check in seconds
 REPORT_LAPSE = 1  # time between each usage print in seconds
 HS06_REF = 12.2  # reference to compute the HS06
