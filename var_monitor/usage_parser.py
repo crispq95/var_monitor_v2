@@ -210,6 +210,7 @@ class UsageParser():
 
 
         for fld in folders: 
+            print (fld+"/*/usage_*")
             usg = glob.glob(fld+"/*/usage_*")
             dic = {}
 
