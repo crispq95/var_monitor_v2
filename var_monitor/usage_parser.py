@@ -204,11 +204,14 @@ class UsageParser():
     def load_usage_files(self): 
         """ Loads all the usage files for the selected jobs into self.data using LogData class. """
         folders = glob.glob(self.log_path)
+        print (folders)
+
 
         for fld in folders: 
             usg = glob.glob(fld+"/*/usage_*")
             dic = {}
 
+            print(usg)
 
             for j in self.selected_jobs:
                 p = re.compile('(.*)'+j)
@@ -250,14 +253,12 @@ class UsageParser():
         """
         keys = []
         to_be_ordered = {}
-        print (log_files)
 
         for usg in log_files:
             df = pd.read_csv(usg, engine='python')
             compute_df_columns(df)
 
-            print(usg)
-            
+
 
             if not df.empty: 
                 nums = re.findall(r'\d+', usg.split('/')[-2])
@@ -297,6 +298,8 @@ class UsageParser():
                                 Job that will be used to fix the size of the plots 
         """
         self.load_usage_files()     #Loads ALL the usage files from the parent folder 
+
+        print (data)
 
         i=0
         for d in self.data:
