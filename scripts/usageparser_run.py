@@ -92,7 +92,8 @@ def main():
 	if not args.plot and not args.stats:
 		raise Exception('One of --plot or --stats required')
 	else: 
-		parser = up.UsageParser(whole_workdir,jobs,mem=memory_limit, wr=iow_limit)
+		parser = up.UsageParser()
+		parser.init_folder_data(whole_workdir,jobs,mem=memory_limit, wr=iow_limit)
 
 		parser.load_data(jobs, set_size_job)
 
