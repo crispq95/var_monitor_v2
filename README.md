@@ -35,6 +35,19 @@ Move to the package directory and install via the execution of the setup script.
 > sudo python setup.py install
 ```
 
+You can also install it via pip as: 
+
+```
+> python3 -m pip install git+https://github.com/crispq95/var_monitor_v2@master 
+```
+
+Or update it if needed as 
+
+```
+> python3 -m pip install --upgrade git+https://github.com/crispq95/var_monitor_v2@master 
+```
+
+
 
 # Usage
 
