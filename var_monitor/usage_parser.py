@@ -173,12 +173,9 @@ class Stat:
 		for i in range(len(ATTR_LIST)):
 			self.var_dict[ATTR_LIST[i]] = data[i]
 
-
-
-
 class UsageParser():
 
-    def __init__(self, lgdr, jobs, mem=4, wr=10):
+    def __init__(self):
         self.log_files = None
         self.dfs = None
         self.additional_stats = None
@@ -187,6 +184,14 @@ class UsageParser():
         self.group_data = {}
         self.group_names = {}
 
+        self.log_path = None        
+        self.data = []              
+        self.selected_jobs = None    
+
+        self.memory_limit = None     
+        self.iow_limit = None
+
+    def init_folder_data(self, lgdr, jobs, mem=4, wr=10): 
         self.log_path = lgdr        
         self.data = []              #Contains the data of all the jobs separated by parent folder (list:LogData())
         self.selected_jobs = jobs   #job types that will be used to plot/get stats 
