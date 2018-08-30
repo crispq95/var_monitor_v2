@@ -176,6 +176,7 @@ class Stat:
 class UsageParser():
 
     def __init__(self):
+        print ("___________________________TEST_____________________________--")
         self.log_files = None
         self.dfs = None
         self.additional_stats = None
