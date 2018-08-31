@@ -89,6 +89,7 @@ def main():
 			set_size_job = config.get('jobs_info', 'size_job')
 
 
+	print ("DIR: ", whole_workdir)
 	if not args.plot and not args.stats:
 		raise Exception('One of --plot or --stats required')
 	else: 

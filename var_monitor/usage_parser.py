@@ -722,6 +722,7 @@ class UsageParser():
                     self.io_plot(fig,gs2,d,c)
                     self.cpu_perc_plot(fig,gs2,d,c)
                     pdf.savefig()
+                    close(fig)
 
 
     def load_log_files(self, wildcard_list, t_fil=None, max_len=None):
