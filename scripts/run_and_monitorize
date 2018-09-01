@@ -100,6 +100,12 @@ def main():
     # Config file passed by command line got priority over the default one (CONFIG_PATH).
     if args.conf:
         conf_file = args.conf
+
+        #We've got an alternative (default) config file just in case some parameter is missing from the given one 
+        alt_conf_file = CONFIG_PATH
+
+        alt_conf = ConfigParser.ConfigParser()
+        alt_conf.read(alt_conf_file)
     else:
         conf_file = CONFIG_PATH
     config = ConfigParser.ConfigParser()
@@ -110,18 +116,28 @@ def main():
     # priotity = (command,config_file,default)
     if args.logdir:  # passed at command line
         logdir = args.logdir
-        config['logging']['logdir_implicit'] = '1'
+        if config.has_option('logging', 'logdir'):
+            config['logging']['logdir_implicit'] = '1'
+        else : 
+            alt_conf['logging'[logdir_implicit]] = '1'
 
     elif config.has_option('logging', 'logdir'):  # present on configuration file
         logdir = config.get('logging', 'logdir')
         print("Logfile on config : ", logdir)
     else:  # default
-        logdir = '.'
-        print ("Default logdir : ", logdir)
+        if args.conf : 
+            if alt_conf.has_option('logging', 'logdir'): 
+                logdir = alt_conf.get('logging','logdir')
+            else : 
+                logdir = '.'
+                print ("Default logdir : ", logdir)
 
     # Choose log file (name)
     if config.has_option('logging', 'logfile'):
         logfile = config.get('logging', 'logfile')
+    elif args.conf :
+        if alt_config.has_option('logging','logfile'):
+            logfile = config.get('logging','logfile')
     else:
         logfile = 'usage_{}.csv'.format(uuid.uuid1().hex)
 
@@ -143,12 +159,15 @@ def main():
         proc = psutil.Popen(command_list)
 
         # Handle the additional case when the logdir is defined inside the command
-        print (config.getboolean('logging', 'logdir_implicit'))
         if config.has_option('logging', 'logdir_implicit') and config.getboolean('logging', 'logdir_implicit'):
             cmd_args, unknown = parse_cmd_args(command_list)
 
-            print("cmd_args : ", cmd_args)
             logdir = os.path.join(cmd_args.workdir, cmd_args.logdir)
+        elif args.conf :
+            if alt_config.has_option('logging', 'logdir_implicit') and alt_config.getboolean('logging', 'logdir_implicit'):
+                cmd_args, unknown = parse_cmd_args(command_list)
+
+                logdir = os.path.join(cmd_args.workdir, cmd_args.logdir)
 
     # Compute whole file name
     whole_logfile = os.path.join(logdir, logfile)

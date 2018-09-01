@@ -66,6 +66,7 @@ def save_or_show(fig, save_plot=False, plot_file=None):
             raise Exception('File not informed')
         fig.savefig(plot_file)
     else:
+        print ("SHOW")
         plt.show()
 
 def compute_df_columns(df):
@@ -737,8 +738,6 @@ class UsageParser():
 
         """
         time_files = []
-        
-
         log_files = []
 
 
