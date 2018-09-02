@@ -162,7 +162,7 @@ To get the time plots for a job you may use scripts/time_test.py as :
 Results will be the following: 
 
 ![time_plots](img/t1_plot.png)
-![time_plots](img/t2_plot.png)
+![time_plots2](img/t2_plot.png)
 
 
 You can also use scripts/usageparser_run.py to get jobs data classified by type of job and ordered by folder, or to get max/mean stats for the jobs on a folder. 
