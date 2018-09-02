@@ -704,7 +704,7 @@ class UsageParser():
 
 
         """
-        
+        print ("PLOT ALL JOBS ")
         for d in self.data: 
             path = folder+'/plots/'
 
