@@ -145,10 +145,30 @@ parser.plot_value_range()
 ```
 ![percentiles](img/percentiles.png)
 
+To get plots by job you may use scripts/single_job_parser.py
+
+```
+> python scripts/single_job_parser.py -j '/mnt/c/Users/cris/Desktop/pic/workdir_SC456_NIP_FLAT_F1_*/call_pointing.iterations.1.SimReducer_pkg/usage_*' -opt 1,2,3
+```
+
+Results will be saved on /plots (you can modify the folder with -pth) and are the same plots shown above. 
+
+To get the time plots for a job you may use scripts/time_test.py as :
+
+```
+> python scripts/time_test.py -j  -d path/cProfile_output
+```
+
+Results will be the following: 
+
+![time_plots](img/t1_plot.png)
+![time_plots](img/t2_plot.png)
+
+
 You can also use scripts/usageparser_run.py to get jobs data classified by type of job and ordered by folder, or to get max/mean stats for the jobs on a folder. 
 
 ```
-> python usageparser_run.py -s -p -wdr /pnfs/pic.es/data/astro/euclid/disk/storage/SC456/workdir_SC456_EXT_KIDS_T1_*/log -j SimExtDetector_pkg,SimTU_pkg,SimPlanner_pkg -sz SimExtDetector_pkg -m 4 -w 10 
+> python usageparser_run.py -s 1 -p 1 -wdr /pnfs/pic.es/data/astro/euclid/disk/storage/SC456/workdir_SC456_EXT_KIDS_T1_*/log -j SimExtDetector_pkg,SimTU_pkg,SimPlanner_pkg -sz SimExtDetector_pkg -m 4 -w 10 
 ```
 For further information about usageparser_run.py use the argument **-h**.
 

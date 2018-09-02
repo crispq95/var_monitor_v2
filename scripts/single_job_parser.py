@@ -39,7 +39,9 @@ def main():
 	if args.size: 
 		size = args.size
 	else : 
-		for j in jobs: 
+		print("ELSE ")
+		for j in jobs:
+			print(j, len(glob.glob(j))) 
 			size += len(glob.glob(j))
 
 	if args.path: 
@@ -51,9 +53,15 @@ def main():
 	if args.var_list:
 		var_list = args.var_list.split(',')
 
-	print (var_list)
+
+	print ('VAR LIST :', var_list)
+	print(jobs,size)
+	print("")
+	
 	parser = up.UsageParser()
 	parser.load_log_files(jobs)
+
+
 	
 	if '1' in options :
 		parser.plot_sample(save_plot=True, var_list=var_list, sample_size=size, plot_file=plot_path+'single_job.pdf')

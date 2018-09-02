@@ -729,7 +729,7 @@ class UsageParser():
 
             Parameters
             ----------
-            wildcard_list : IDK________________________________________________
+            wildcard_list : 
                 path and name of the files to be used
             max_len :
                 Maximum number of log files that will be used.
