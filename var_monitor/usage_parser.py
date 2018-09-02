@@ -710,6 +710,7 @@ class UsageParser():
         for d in self.data: 
             path = folder+'/plots/'
 
+            name = d.parent_folder.split('/') 
             if name[-1] in logs : 
                 name = name[-2]
             else : 
