@@ -705,13 +705,18 @@ class UsageParser():
 
         """
         print ("PLOT ALL JOBS ")
+        logs = ['log', 'logs']
+
         for d in self.data: 
             path = folder+'/plots/'
 
-            name = d.parent_folder.split('/')
+            if name[-1] in logs : 
+                name = name[-2]
+            else : 
+                name = name[-1]
             print ("NAME = ",name)
-
-            with PdfPages((path+d.parent_folder.split('/')[-2]+'.pdf')) as pdf:
+            #d.parent_folder.split('/')[-2]
+            with PdfPages((path+name+'.pdf')) as pdf:
                 print ("FOLDER : ", d.parent_folder, " ______ ")
                 cs = self.split_data(d, max_size)
 

@@ -100,8 +100,10 @@ def main():
 
 
 		if args.plot: 
+			print ("PLOT")
 			parser.plot_all_jobs('/'.join(pth[0:-1]))
 		if args.stats : 
+			print ("STATS")
 			parser.get_job_stats()
 
 
