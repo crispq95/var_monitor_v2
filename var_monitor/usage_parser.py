@@ -60,13 +60,11 @@ def save_or_show(fig, save_plot=False, plot_file=None):
 
     """
 
-    print ("SAVE PLOT : ", type(fig))
     if save_plot:
         if plot_file is None:
             raise Exception('File not informed')
         fig.savefig(plot_file)
     else:
-        print ("SHOW")
         plt.show()
 
 def compute_df_columns(df):
